@@ -39,3 +39,8 @@ This project contains the following:
 - Verify the image was successfully pushed: https://gitlab.com/groups/gitlab-org/workspaces/examples/-/container_registries
 - Remove the local copy of the image: `docker rmi registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`  
 - Pull the image locally and run with the above local testing steps, replacing `example-sshd-http-app` with `registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest` in the `docker run` command.
+
+## Running the image in GitLab Workspaces
+
+- Open this project from https://gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app, or push it to a new project in your local GDK.
+- Create a new workspace in the project.
