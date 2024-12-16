@@ -48,3 +48,4 @@ This project contains the following:
   - From local machine: `git remote add gdk ssh://git@gdk.test:2222/gitlab-org/example-sshd-http-app.git`
   - Push to GDK: `git push gdk main:main`
 - Create a new workspace for the project.
+- NOTE: Currently, the `gitlab-workspaces-tools` container image does not support ARM64 (MacOS) architecture. To work around this in local GDK, you can locally edit `tools_injector_image` in `ee/lib/remote_development/settings/default_settings.rb` to have the following value: `registry.gitlab.com/gitlab-org/workspaces/testing/gitlab-workspaces-tools-arm-fork:arm64-latest`. Then, `gdk restart rails-web`, and create a new workspace for the `example-sshd-http-app` project.
