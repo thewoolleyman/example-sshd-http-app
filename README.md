@@ -15,11 +15,13 @@ This project contains the following:
 
 ## Building the image
 
-- `docker build -t example-sshd-http-app .`
+- Create a buildx builder for multiplatform builds (linux and MacOS) `docker buildx create --use`
+- Create a multiplatform build (for publishing to registry): `docker buildx build --platform linux/amd64,linux/arm64 -t example-sshd-http-app .`
+- Also create a single-platform arm64 (MacOS) build, with `--load` option, to support local testing: `docker buildx build --platform linux/arm64 -t example-sshd-http-app-arm64 --load .`
 
 ## Testing the image locally
 
-- Run the container locally: `docker run -it -p 2222:22 -p 8000:8000 --name local-sshd-http-app example-sshd-http-app /bin/bash`
+- Run the container locally: `docker run -it -p 2222:22 -p 8000:8000 --name local-sshd-http-app example-sshd-http-app-arm64 /bin/bash`
   - `-p 2222:22` maps the container's port 22 (sshd) to the host's port 2222
   - `-p 8000:8000` maps the container's port 8000 (web server) to the host's port 8000
 - Connect to the container via bash: `docker exec -it local-sshd-http-app /bin/bash`
@@ -33,7 +35,7 @@ This project contains the following:
 
 ## Publish the image to registry and verify
 
-- `docker tag example-sshd-http-app registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
+- Tag the multiplatform build: `docker tag example-sshd-http-app registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
 - `docker login registry.gitlab.com` (See https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html for details)
 - `docker push registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
 - Verify the image was successfully pushed: https://gitlab.com/groups/gitlab-org/workspaces/examples/-/container_registries
