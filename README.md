@@ -49,3 +49,18 @@ This project contains the following:
   - Push to GDK: `git push gdk main:main`
 - Create a new workspace for the project.
 - NOTE: Currently, the `gitlab-workspaces-tools` container image does not support ARM64 (MacOS) architecture. To work around this in local GDK, you can locally edit `tools_injector_image` in `ee/lib/remote_development/settings/default_settings.rb` to have the following value: `registry.gitlab.com/gitlab-org/workspaces/testing/gitlab-workspaces-tools-arm-fork:arm64-latest`. Then, `gdk restart rails-web`, and create a new workspace for the `example-sshd-http-app` project.
+
+## Debugging SSH connection issues
+
+### In the tooling container
+
+- Get workspace's namespace name: `kubectl get namespace`
+- Get pod name: `kubectl get pods -n <namespace name>`  
+- Exec into workspaces tooling container: `kubectl exec -it <pod name> -n <namespace name> -- /bin/bash`
+- `ps -ef | grep sshd` to check if sshd is running
+- To see logs, `kill -9` the `/usr/bin/sshd` PID, then run `/usr/sbin/sshd -d -D` to see sshd server output to console (TODO: Not sure where default logs go, find them and update this).
+
+### In the gitlab-workspaces-proxy container
+
+- Get `gitlab-workspaces-proxy` pod name: `kubectl get pods -n gitlab-workspaces`
+- Tail the logs of the container: `kubectl logs -f gitlab-workspaces-proxy-79d845b49-hlxnv -c gitlab-workspaces-proxy -n gitlab-workspaces`
