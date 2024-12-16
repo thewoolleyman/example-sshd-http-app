@@ -21,14 +21,14 @@ This project contains the following:
 
 ## Testing the image locally
 
-- Run the container locally: `docker run -it -p 2222:22 -p 8000:8000 --name local-sshd-http-app example-sshd-http-app-arm64 /bin/bash`
-  - `-p 2222:22` maps the container's port 22 (sshd) to the host's port 2222
+- Run the container locally: `docker run -it -p 8022:22 -p 8000:8000 --name local-sshd-http-app example-sshd-http-app-arm64 /bin/bash`
+  - `-p 8022:22` maps the container's port 22 (sshd) to the host's port 8022
   - `-p 8000:8000` maps the container's port 8000 (web server) to the host's port 8000
 - Connect to the container via bash: `docker exec -it local-sshd-http-app /bin/bash`
   - Run sshd daemonized: `/usr/sbin/sshd`
   - Run the HTTP server in the background: `/usr/local/bin/server.sh`
   - Tail the http server log: `tail -f /tmp/server.log`
-- Test connecting to container via SSH from docker host machine: `ssh -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null gitlab-workspaces@localhost`
+- Test connecting to container via SSH from docker host machine: `ssh -p 8022 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null gitlab-workspaces@localhost`
   - Connection should be successful with no password required.
 - Test connecting to the container via HTTP from docker host machine. Access http://localhost:8000 in a browser 
 - Remove the container: `docker rm -f local-sshd-http-app`
@@ -44,5 +44,9 @@ This project contains the following:
 
 ## Running the image in GitLab Workspaces
 
-- Open this project from https://gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app, or push it to a new project in your local GDK.
+- Open this project from https://gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app, or... 
+- ...push it to a new project in your local GDK:
+  - Create `example-sshd-http-app` project in GDK under `gitlab-org`, with no repo (no README)
+  - From local machine: `git remote add gdk ssh://git@gdk.test:2222/gitlab-org/example-sshd-http-app.git`
+  - Push to GDK: `git push gdk main:main`
 - Create a new workspace in the project.
