@@ -35,12 +35,10 @@ This project contains the following:
 
 ## Publish the image to registry and verify
 
-- Tag the multiplatform build: `docker tag example-sshd-http-app registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
+- Tag and push the multiplatform build: `docker tag example-sshd-http-app registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
 - `docker login registry.gitlab.com` (See https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html for details)
-- `docker push registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
+- Tag and push the multiplatform build: `docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest --push .`
 - Verify the image was successfully pushed: https://gitlab.com/groups/gitlab-org/workspaces/examples/-/container_registries
-- Remove the local copy of the image: `docker rmi registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`  
-- Pull the image locally and run with the above local testing steps, replacing `example-sshd-http-app` with `registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest` in the `docker run` command.
 
 ## Running the image in GitLab Workspaces
 
@@ -49,4 +47,4 @@ This project contains the following:
   - Create `example-sshd-http-app` project in GDK under `gitlab-org`, with no repo (no README)
   - From local machine: `git remote add gdk ssh://git@gdk.test:2222/gitlab-org/example-sshd-http-app.git`
   - Push to GDK: `git push gdk main:main`
-- Create a new workspace in the project.
+- Create a new workspace for the project.
