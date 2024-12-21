@@ -6,5 +6,6 @@
     "8000": {
       "label": "http-8000"
     }
-  }
+  },
+  "overrideCommand": false
 }
