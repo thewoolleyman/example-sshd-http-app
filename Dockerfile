@@ -29,13 +29,9 @@ RUN chmod 775 /etc/shadow
 # Create simple webpage and script which serves it via http server on port 8000
 RUN mkdir -p /var/www
 RUN echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Example HTTP Server</title></head><body>Example HTTP server</body></html>' > /var/www/index.html
-RUN echo "ruby -run -ehttpd /var/www -p8000" > /usr/local/bin/server.sh
+RUN echo "#!/bin/sh\nruby -run -ehttpd /var/www -p8000" > /usr/local/bin/server.sh
 RUN chmod +x /usr/local/bin/server.sh
 
 USER gitlab-workspaces
 
-# Start ssh server (daemonized) as gitlab-workspaces user (not sudo) with:
-# /usr/sbin/sshd
-#
-# Run web server (background) as gitlab-workspaces user (not sudo) with:
-# nohup /usr/local/bin/server.sh > /tmp/server.log 2>&1 &
+CMD ["/usr/local/bin/server.sh"]

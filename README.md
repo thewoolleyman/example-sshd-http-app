@@ -26,7 +26,7 @@ This project contains the following:
   - `-p 8000:8000` maps the container's port 8000 (web server) to the host's port 8000
 - Connect to the container via bash: `docker exec -it local-sshd-http-app /bin/bash`
   - Run sshd daemonized: `/usr/sbin/sshd`
-  - Run the HTTP server in the background: `/usr/local/bin/server.sh`
+  - Run the HTTP server in the background: `nohup /usr/local/bin/server.sh > /tmp/server.log 2>&1 &`
   - Tail the http server log: `tail -f /tmp/server.log`
 - Test connecting to container via SSH from docker host machine: `ssh -p 8022 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null gitlab-workspaces@localhost`
   - Connection should be successful with no password required.
@@ -35,7 +35,6 @@ This project contains the following:
 
 ## Publish the image to registry and verify
 
-- Tag and push the multiplatform build: `docker tag example-sshd-http-app registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest`
 - `docker login registry.gitlab.com` (See https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html for details)
 - Tag and push the multiplatform build: `docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest --push .`
 - Verify the image was successfully pushed: https://gitlab.com/groups/gitlab-org/workspaces/examples/-/container_registries
