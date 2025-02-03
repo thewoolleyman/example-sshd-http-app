@@ -1,0 +1,11 @@
+{
+  "name": "tooling-container-custom2",
+  "image": "registry.gitlab.com/gitlab-org/workspaces/examples/example-sshd-http-app:latest",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "http-8000"
+    }
+  },
+  "overrideCommand": false
+}
